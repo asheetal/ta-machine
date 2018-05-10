@@ -18,13 +18,18 @@
 
 SRCDIR=./src
 BINDIR=./bin
-SRCFILES=${SRCDIR}/*.c
-EXEFILE=ta-machine
+SRCFILES=$(SRCDIR)/*.c
+EXEFILE=$(BINDIR)/ta-machine
 
-all: ta-machine
+all: $(BINDIR) $(EXEFILE)
 
-ta-machine:
-	gcc ${SRCFILES} -o ${BINDIR}/${EXEFILE}
+$(BINDIR):
+	if [ ! -d "$(BINDIR)" ]; then \
+		mkdir -p $(BINDIR); \
+	fi
+
+$(EXEFILE):
+	gcc $(SRCFILES) -o $(EXEFILE)
 
 clean:
-	rm -rf ${BINDIR}/${EXEFILE}
+	rm -rf $(EXEFILE)
