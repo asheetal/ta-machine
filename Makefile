@@ -15,21 +15,46 @@
 #along with ta-machine. If not, see <http://www.gnu.org/licenses/>.            *
 #******************************************************************************/
 
+#COMMANDS
+GCC=gcc
+GCCOPTS=-O3 
 
+#Directory path
 SRCDIR=./src
+INCDIR=./inc
 BINDIR=./bin
-SRCFILES=$(SRCDIR)/*.c
+ARGTABLEDIR=./lib/argtable3
+
+#target
 EXEFILE=$(BINDIR)/ta-machine
 
-all: $(BINDIR) $(EXEFILE)
+#incdirs
+INCPATHS=-I$(ARGTABLEDIR) -I$(INCDIR)
+
+#files
+SRCFILES=								\
+			$(ARGTABLEDIR)/argtable3.c	\
+			$(SRCDIR)/ta-machine-main.c
+
+all: $(BINDIR) $(EXEFILE) 
+
+#argtable3:
+#	if [ ! -d "$(ARGTABLEDIR)" ]; then \
+#		echo "please install argtable3 v3.0.3"; exit(1); \
+#	else \
+#		HASH := $shell(git rev-parse --short HEAD); \
+#		ifne ($(HASH), "611d160") \
+#			error("Checkout argtable to HASH 611d160);\
+#		endif \
+#	fi
 
 $(BINDIR):
-	if [ ! -d "$(BINDIR)" ]; then \
+	if [ ! -d "$(BINDIR)" ]; then  \
 		mkdir -p $(BINDIR); \
 	fi
 
-$(EXEFILE):
-	gcc $(SRCFILES) -o $(EXEFILE)
+$(EXEFILE): $(SRCFILES) $(INCFILES)
+	$(GCC) $(GCCOPTS) $(INCPATHS) $(SRCFILES) -o $(EXEFILE)
 
 clean:
 	rm -rf $(EXEFILE)
