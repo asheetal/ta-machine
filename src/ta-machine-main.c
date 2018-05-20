@@ -24,6 +24,7 @@
 //local includes
 #include "ta-machine.h"
 #include "ta-machine-packet.h"
+#include "ta-machine-version.h"
 
 
 /* global arg_xxx structs */
@@ -32,7 +33,7 @@ struct arg_int *level;
 struct arg_file *o, *file;
 struct arg_end *end;
 
-int main(int argc, char *argv[])
+int parse_arguments(int argc, char *argv[])
 {
     /* the global arg_xxx structs are initialised within the argtable */
     void *argtable[] = {
@@ -77,3 +78,15 @@ exit:
     arg_freetable(argtable, sizeof(argtable) / sizeof(argtable[0]));
     return exitcode;
 }
+
+
+int main(int argc, char *argv[])
+{
+	int command_status = 0;
+
+	printf("ta-machine compiled using SHA %X\n", TAM_VERSION);
+
+	parse_arguments(argc, argv);
+	if (command_status != 0) return(TAM_ERROR_CMD_LINE_ERROR);
+}
+

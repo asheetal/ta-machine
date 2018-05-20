@@ -15,14 +15,10 @@
 *along with ta-machine. If not, see <http://www.gnu.org/licenses/>.            *
 *******************************************************************************/
 
-#ifndef TA_MACHINE_H
-#define TA_MACHINE_H
+#ifndef _TA_MACHINE_VERSION_H
+#define _TA_MACHINE_VERSION_H
 
-#define TA_MACHINE "ta-machine"
+//This line below is automatically edited by Makefile. Do not edit this variable
+#define TAM_VERSION 0xd160792
 
-
-//defining the error codes
-#define TAM_ERROR_NO_ERROR				0
-#define TAM_ERROR_CMD_LINE_ERROR		1
-
-#endif /*TA_MACHINE_H */
+#endif /* _TA_MACHINE_VERSION_H */
