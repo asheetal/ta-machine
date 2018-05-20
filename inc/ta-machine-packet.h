@@ -15,10 +15,23 @@
 *along with ta-machine. If not, see <http://www.gnu.org/licenses/>.            *
 *******************************************************************************/
 
-#ifndef TA_MACHINE_H
-#define TA_MACHINE_H
+#ifndef _TA_MACHINE_PACKET_H
+#define _TA_MACHINE_PACKET_H
 
-#define TA_MACHINE "ta-machine"
+#include <gpgme.h>
+#include <openssl/sha.h>
 
+#define SIGNED_CERTIFICATE_LEN 256
 
-#endif /*TA_MACHINE_H */
+/* maximum structure size must be 2048 bytes or 16 kilobits*/
+
+typedef struct struct_tam_packet
+{
+	unsigned char signed_certificate[SIGNED_CERTIFICATE_LEN]; 
+	unsigned char packet_sha256[SHA256_DIGEST_LENGTH];       /* 32 bytes */
+} struct_tam_packet;
+
+/* functions defined in this structure */
+int function_tam_command_add_sha256(struct_tam_packet *ptr_packet);
+
+#endif /* _TA_MACHINE_PACKET_H */

@@ -15,10 +15,25 @@
 *along with ta-machine. If not, see <http://www.gnu.org/licenses/>.            *
 *******************************************************************************/
 
-#ifndef TA_MACHINE_H
-#define TA_MACHINE_H
+//System includes
+#include <stdio.h>
+#include <string.h>
+#include <openssl/sha.h>
+#include <gpgme.h>
 
-#define TA_MACHINE "ta-machine"
+//Library includes
 
+//local includes
+#include "ta-machine.h"
+#include "ta-machine-packet.h"
 
-#endif /*TA_MACHINE_H */
+/* create SHA256 for the packet */
+int function_tam_command_add_sha256(struct_tam_packet *ptr_packet)
+{
+    SHA256_CTX ctx;
+    SHA256_Init(&ctx);
+    SHA256_Update(&ctx, ptr_packet->signed_certificate, SIGNED_CERTIFICATE_LEN);
+    SHA256_Final(ptr_packet->packet_sha256, &ctx);
+
+	return 0;
+}

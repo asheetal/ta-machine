@@ -17,8 +17,12 @@
 
 #COMMANDS
 GCC=gcc
-GCCOPTS=-O3 
+GCCOPTS=-O3 -Wall -lcrypto
 
+#Check these paths
+OPENSSL=/usr/local/opt/openssl
+
+#below this should not need any modifications
 #Directory path
 SRCDIR=./src
 INCDIR=./inc
@@ -29,14 +33,18 @@ ARGTABLEDIR=./lib/argtable3
 EXEFILE=$(BINDIR)/ta-machine
 
 #incdirs
-INCPATHS=-I$(ARGTABLEDIR) -I$(INCDIR)
+INCPATHS=	-I$(ARGTABLEDIR) \
+			-I$(OPENSSL)/include \
+			-I$(INCDIR)
 
 #files
 SRCFILES=								\
 			$(ARGTABLEDIR)/argtable3.c	\
+			$(SRCDIR)/ta-machine-packet.c \
 			$(SRCDIR)/ta-machine-main.c
 
 all: $(BINDIR) $(EXEFILE) 
+
 
 #argtable3:
 #	if [ ! -d "$(ARGTABLEDIR)" ]; then \
@@ -54,7 +62,13 @@ $(BINDIR):
 	fi
 
 $(EXEFILE): $(SRCFILES) $(INCFILES)
-	$(GCC) $(GCCOPTS) $(INCPATHS) $(SRCFILES) -o $(EXEFILE)
+	$(GCC) 							\
+	$(GCCOPTS) 						\
+	$(GPGINC) 						\
+	$(shell gpgme-config --cflags --libs)	\
+	$(INCPATHS) 					\
+	$(SRCFILES) 					\
+	-o $(EXEFILE)
 
 clean:
 	rm -rf $(EXEFILE)

@@ -23,6 +23,7 @@
 
 //local includes
 #include "ta-machine.h"
+#include "ta-machine-packet.h"
 
 
 /* global arg_xxx structs */
